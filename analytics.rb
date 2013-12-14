@@ -46,10 +46,3 @@ class WordAnalytics
   end
 
 end
-
-# phrase = "This is my test string string hahahah cool"
-# word = WordAnalytics.new(phrase)
-# word.start_word_count
-# top_three = TopThree.new(word)
-# top_three.get_top_3_used_characters_or_words
-# binding.pry

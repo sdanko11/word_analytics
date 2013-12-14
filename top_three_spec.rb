@@ -28,4 +28,5 @@ describe TopThree do
     it 'it should calculate the top 3 used characters in a phrase'  do
       expect(word5.get_top_3_used_characters_or_words).to eql([{'-'=> 3}, {'2' => 4},{';'=>5}])
     end
+    
 end
