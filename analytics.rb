@@ -6,51 +6,57 @@ class WordAnalytics
 
   def initialize(phrase)
     @phrase = phrase
-    @all_characters = []
+    @words = []
+    @letters = []
   end
 
-  # def check_for_phrase_or_string
-  #   if @phrase.include?(' ')
-  #     # binding.pry
-  #     # get_each_word
-  #   else 
-  #     get_each_letter
-  #   end
-  # end
-
-  def get_each_word
-    binding.pry
-    @phrase = @phrase.split(' ')
+  def start_word_count
+    @words = @phrase.split(' ')
+    get_unique_character_or_words(@words)
   end
 
-  def get_each_letter
-    @phrase = @phrase.gsub(/\s+/, "")
-    array_of_letters = @phrase.split('')
-    @phrase = array_of_letters
+  def start_letter_count
+    letters = @phrase.delete(' ')
+    array_of_letters = letters.split('')
+    @letters = array_of_letters
+    get_unique_character_or_words(@letters)
   end
 
-  def count_characters
-    @phrase.each do |each_letter|
-      @all_characters.each do |letter|
+  def count_characters_or_words(character_or_word_count, all_letters)
+    all_letters.each do |each_letter|
+      character_or_word_count.each do |letter|
         if each_letter == letter.keys[0]
           letter[each_letter] += 1
       end
     end
   end
-  binding.pry
+  puts character_or_word_count
+  get_top_3_used_characters_or_words(character_or_word_count)
 end
 
-  def get_unique_characters
-    uniq_characters = @phrase.uniq
-    uniq_characters.each do |character|
-        uniq_characters = {character => 0}
-        @all_characters << uniq_characters
+  def get_unique_character_or_words(words_or_letters)
+    all_characters = []
+    uniq_characters = words_or_letters.uniq
+      uniq_characters.each do |character|
+          uniq_characters = {character => 0}
+          all_characters << uniq_characters
+        end
+    count_characters_or_words(all_characters, words_or_letters)
+  end
+
+  def get_top_3_used_characters_or_words(character_or_word_count)
+    until character_or_word_count.length == 3
+      if character_or_word_count[0].values.join > character_or_word_count[1].values.join
+        character_or_word_count.delete(character_or_word_count[1])
+      else character_or_word_count.delete(character_or_word_count[0])
+      end
+      character_or_word_count.count
     end
+    puts "top 3"
+    puts character_or_word_count
   end
 end
 
-word = WordAnalytics.new("thisi s3;;;;---222    3p222ase")
-word.get_each_letter
-word.get_unique_characters
-word.count_characters
-
+word = WordAnalytics.new("This is my test string string hahahah cool")
+word.start_word_count
+word.start_letter_count
