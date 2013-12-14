@@ -3,32 +3,34 @@ require_relative 'analytics'
 
 describe WordAnalytics do
 
-  let(:phrase1) { WordAnalytics.new("this is my string blah vhl       ") }
-  let(:phrase2) { WordAnalytics.new("this is 22 string blah vhl  33     ") }
+  let(:phrase1) { WordAnalytics.new("my my my my") }
+  let(:phrase2) { WordAnalytics.new("this is 22 22 44 44 33     ") }
   let(:phrase3) { WordAnalytics.new("?? ??? asfdas 222 $$ ///") }
+  let(:phrase4) { WordAnalytics.new("----------") }
+  let(:phrase5) { WordAnalytics.new("/////--00000") }
 
-    it 'should join the string together eliminating all white space' do
-      expect(phrase1.get_each_word).to eql(['this','is', 'my', 'string', 'blah', 'vhl'])
+    it 'it should calculate the amount of times each word is used in a phrase' do
+      expect(phrase1.start_word_count).to eql([{'my' => 4}])
     end
 
-    it 'should split all the words into an empty array' do
-      expect(phrase2.get_each_word).to eql(['this','is', '22', 'string', 'blah', 'vhl', '33'])
+    it 'it should calculate the amount of times each word is used in a phrase' do
+      expect(phrase2.start_word_count).to eql([{'this' => 1}, {'is' => 1},{'22' => 2}, {'44' => 2}, {'33' => 1}])
     end
 
-    it 'should split all the words into an empty array' do
-      expect(phrase3.get_each_word).to eql(['??','???', 'asfdas', '222', '$$', '///'])
+    it "should calculate the number of times each character is used" do
+      expect(phrase1.start_letter_count).to eql([{'m' => 4}, {'y' => 4}])
     end
 
-    it 'should join all the words in a phrase together' do
-      expect(phrase1.get_each_letter).to eql("thisismystringblahvhl")
+    it "should calculate the number of times each character is used" do
+      expect(phrase3.start_letter_count).to eql([{'?' => 5}, {"a"=>2}, {'s'=>2}, {'f'=>1},
+      {'d'=>1}, {'2'=> 3}, {'$'=> 2}, {'/'=>3}])
     end
 
-    it 'should join all the words in a phrase together' do
-      expect(phrase2.get_each_letter).to eql("thisis22stringblahvhl33")
+    it "should calculate the number of times each character is used" do
+      expect(phrase4.start_letter_count).to eql([{'-' => 10}])
     end
 
-    it 'should join all the words in a phrase together' do
-      expect(phrase3.get_each_letter).to eql("?????asfdas222$$///")
+    it "should calculate the number of times each character is used" do
+      expect(phrase5.start_letter_count).to eql([{'/'=> 5}, {'-' => 2}, {'0' => 5}])
     end
-
 end
